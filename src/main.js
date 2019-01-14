@@ -9,12 +9,15 @@ import router from './router'
 
 import Vuex from 'vuex'
 import store from './store/store'
+
 Vue.prototype.$store = store;
 
 // 引入axios，并加到原型链中
-import axios from 'axios';
-Vue.prototype.$axios = axios;
+import Axios from 'axios';
+
+Vue.prototype.$axios = Axios;
 import QS from 'qs'
+
 Vue.prototype.qs = QS;
 
 //全局loading组件
@@ -31,5 +34,30 @@ new Vue({
   store,
   components: {App},
   template: '<App/>',
-})
+});
+//定义一个请求拦截器
+Axios.interceptors.request.use((config) => {
+  console.log('请求拦截器');
+  store.state.isShow = true;
+  //在发送请求之前做某件事
+  if (config.method === 'post') {
+    config.data = QS.stringify(config.data);
+    //Object { file: 888 }    qs执行前
+    //file=888            qs执行后
+  }
+  return config;
+}, (error) => {
+  store.state.isShow = false;
+  return Promise.reject(error);
+});
+//定义一个响应拦截器
+Axios.interceptors.response.use((res) => {
+  console.log('响应拦截器');
+  store.state.isShow = false;//在这里对返回的数据进行处理
+  return res;
+}, (error) => {
+  console.log('网络异常');
+  store.state.isShow = false;
+  return Promise.reject(error);
+});
 
