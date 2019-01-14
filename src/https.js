@@ -1,7 +1,11 @@
 import Vue from 'vue'
 import axios from 'axios'
 import qs from 'qs'
-Vue.use(axios)
+import Vuex from 'vuex'
+import store from './store/store'
+Vue.prototype.$store = store;
+
+Vue.use(Vuex);
 axios.defaults.timeout = 5000;                        //响应时间
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';        //配置请求头
 //axios.defaults.baseURL = '';   //配置接口地址
@@ -9,7 +13,10 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 //POST传参序列化(添加请求拦截器)
 axios.interceptors.request.use((config) => {
   //开启loading
-  console.log('请求拦截器',store)
+  console.log('请求拦截器');
+  this.$store.commit('setIsShow',true);
+  console.log(this.$store.state.isShow);
+
   //在发送请求之前做某件事
   if(config.method  === 'post'){
     config.data = qs.stringify(config.data);
@@ -23,7 +30,7 @@ axios.interceptors.request.use((config) => {
 //返回状态判断(添加响应拦截器)
 axios.interceptors.response.use((res) =>{
   //关闭loading
-  //console.log('响应拦截器',this.$store.state.isShow)
+  console.log('响应拦截器')
   //对响应数据做些事
   if(!res.data.success){
     return Promise.resolve(res);
@@ -36,37 +43,37 @@ axios.interceptors.response.use((res) =>{
 //封装请求
 
 // //返回一个Promise(发送post请求)
-// export function axiosPost(url, params) {
-//   return new Promise((resolve, reject) => {
-//     axios.post(url, params)
-//       .then(response => {
-//         resolve(response);
-//       }, err => {
-//         reject(err);
-//       })
-//       .catch((error) => {
-//         reject(error)
-//       })
-//   })
-// }
+export function Post(url, params) {
+  return new Promise((resolve, reject) => {
+    axios.post(url, params)
+      .then(response => {
+        resolve(response);
+      }, err => {
+        reject(err);
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
 // ////返回一个Promise(发送get请求)
-// export function axiosGet(url, param) {
-//   return new Promise((resolve, reject) => {
-//     axios.get(url, {params: param})
-//       .then(response => {
-//         resolve(response)
-//       }, err => {
-//         reject(err)
-//       })
-//       .catch((error) => {
-//         reject(error)
-//       })
-//   })
-// }
-// export default {
-//   axiosPost,
-//   axiosGet
-// }
+export function Get(url, param) {
+  return new Promise((resolve, reject) => {
+    axios.get(url, {params: param})
+      .then(response => {
+        resolve(response)
+      }, err => {
+        reject(err)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+export default {
+  Post,
+  Get
+}
 
 //第一版
 // axios.defaults.timeout = 3000;
