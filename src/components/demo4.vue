@@ -4,8 +4,12 @@
     {{testData}}<br/>
     <Loading v-show="this.$store.state.isShow"></Loading>
     <span v-if="isExist">测试v-if是消除还是隐藏？消除</span>
-    <button @click="isExist=!isExist,testData=''">你好</button><br/>
-    <input type="file" name="file" ref="file"/>
+    <button @click="isExist=!isExist,testData=''">你好</button>
+    <br/>
+    <b>上传进度:{{rate}}%</b><br/>
+    <!--或者使用@change事件，fn(e){e.target.files[0]}-->
+    <input type="file" name="file" ref="file" @change="changeFile"/>
+
     <button @click="requestLoading">上传图片</button>
     <button @click="requestCancel">取消上传</button>
 
@@ -25,37 +29,45 @@
         msg: 'demo4欢迎来到您的Vue.js App',
         isExist: true,
         testData: '',
-        cancelSource:''
+        cancelSource: '',
+        rate:0,
+        file:{}
       }
     },
     methods: {
       requestLoading: function () {
 
         //取消请求
-        // var cancelToken = axios.CancelToken;
-        // var cancelTokenSource = cancelToken.source();
-        // this.cancelSource=cancelTokenSource;
+        var cancelToken = this.$axios.CancelToken;
+        var cancelTokenSource = cancelToken.source();
+        this.cancelSource=cancelTokenSource;
 
-        axios.post('/firstDemo/upload',{file:888}).then(res => {
-            this.testData = res.data;
-            console.log(res.data)
-          }).catch(err => {
+        var fd = new FormData();
+        fd.append('file',this.file)
+        console.log(fd)
+
+        this.$axios.post('/firstDemo/upload', fd, {
+          //timeout: 200  设置options
+          cancelToken: cancelTokenSource.token,
+          headers:{'Content-Type': 'multipart/form-data'},
+          onUploadProgress: (progressEvent) =>{
+            this.rate = ((progressEvent.loaded / progressEvent.total) * 100).toFixed(2);
+            console.log(this.rate)
+          }
+        }).then(res => {
+          console.log();
+        }).catch(err => {
           this.isShow = false;
           console.log(err)
         })
       },
       //取消请求事件
-      requestCancel:function () {
-        //this.cancelSource.cancel();
-        axios.get('/firstDemo/cancelUpload','file=666',{
-          //timeout:4000
-        }).then(res => {
-          this.testData = res.data;
-          console.log(res.data)
-        }).catch(err => {
-          this.isShow = false;
-          console.log(err)
-        })
+      requestCancel: function () {
+        this.cancelSource.cancel();
+      },
+      changeFile:function (e) {
+        this.file= e.target.files[0];
+        this.rate=0;
       }
     }
   }
