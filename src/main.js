@@ -40,11 +40,13 @@ Axios.interceptors.request.use((config) => {
   console.log('请求拦截器');
   store.state.isShow = true;
   //在发送请求之前做某件事
-  if (config.method === 'post') {
-    config.data = QS.stringify(config.data);
-    //Object { file: 888 }    qs执行前
-    //file=888            qs执行后
-  }
+  // if (config.method === 'post') {
+  //   console.log(config.data)
+  //   config.data = QS.stringify(config.data);
+  //   console.log(config.data)
+  //   //Object { file: 888 }    qs执行前
+  //   //file=888            qs执行后
+  // }
   return config;
 }, (error) => {
   store.state.isShow = false;
