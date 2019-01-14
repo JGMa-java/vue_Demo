@@ -10,7 +10,7 @@ npm install
 
 # serve with hot reload at localhost:8080
 npm run dev
-
+#
 主要操作以上两部就可以，如果报错请根据提示install相关依赖库就可以
 
 # build for production with minification
