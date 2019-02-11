@@ -12,6 +12,23 @@
 
     <button @click="requestLoading">上传图片</button>
     <button @click="requestCancel">取消上传</button>
+    <br/>
+    <ul>
+      <li>
+        <ul>所有路由：</ul>
+        <ul></ul>
+        <ul></ul>
+        <ul></ul>
+        <ul></ul>
+      </li>
+      <li style="text-align: left">
+        <ul>/</ul>
+        <ul>/test</ul>
+        <ul>/index</ul>
+        <ul>/index/loading</ul>
+      </li>
+    </ul>
+
 
   </div>
 </template>
