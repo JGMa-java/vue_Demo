@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import test from '@/components/test'
 import demo4 from '@/components/demo4'
 import Loading from '@/components/loading'
+import echarts from '@/components/echarts'
 Vue.use(Router)
 
 export default new Router({
@@ -17,6 +18,11 @@ export default new Router({
       path: '/test',
       name: 'test',
       component: test
+    },
+    {
+      path: '/echarts',
+      name: 'echarts',
+      component: echarts
     },
     {
       path: '/index',

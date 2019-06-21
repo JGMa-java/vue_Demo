@@ -10,6 +10,11 @@ import router from './router'
 import Vuex from 'vuex'
 import store from './store/store'
 
+// 引入echarts
+import echarts from 'echarts'
+
+Vue.prototype.$echarts = echarts;
+
 Vue.prototype.$store = store;
 
 // 引入axios，并加到原型链中

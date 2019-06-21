@@ -22,13 +22,13 @@
         <ul></ul>
       </li>
       <li style="text-align: left">
-        <ul>/</ul>
-        <ul>/test</ul>
-        <ul>/index</ul>
-        <ul>/index/loading</ul>
+        <ul><router-link to="/">首页</router-link></ul>
+        <ul><router-link to="/index">官方首页</router-link></ul>
+        <ul><router-link to="/index/loading">loading嵌套路由</router-link></ul>
+        <ul><router-link to="/loading">loading组件</router-link></ul>
+        <ul><router-link to="/echarts">echarts示例</router-link></ul>
       </li>
     </ul>
-
 
   </div>
 </template>
