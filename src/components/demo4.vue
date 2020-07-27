@@ -6,7 +6,10 @@
     <span v-if="isExist">测试v-if是消除还是隐藏？消除</span>
     <button @click="isExist=!isExist,testData=''">你好</button>
     <br/>
-    <b>上传进度:{{rate}}%</b><br/>
+    <b v-if="rate<100 && rate>=0">上传进度:{{rate}}%</b>
+    <b v-else-if="rate==100">上传成功!</b>
+    <b v-else-if="rate==-1">上传失败!</b>
+    <br/>
     <!--或者使用@change事件，fn(e){e.target.files[0]}-->
     <input type="file" name="file" ref="file" @change="changeFile"/>
 
@@ -80,6 +83,7 @@
       },
       //取消请求事件
       requestCancel: function () {
+        this.rate=-1;
         this.cancelSource.cancel();
       },
       changeFile:function (e) {
