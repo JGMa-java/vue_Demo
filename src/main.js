@@ -7,6 +7,17 @@ import App from './App'
 import Loading from './components/loading'
 import router from './router'
 
+import ElementUI from 'element-ui';
+// 只引入需要的组件
+// import { Button, Select } from 'element-ui';
+// Vue.component(Button.name, Button);
+// Vue.component(Select.name, Select);
+/* 或写为
+ * Vue.use(Button)
+ * Vue.use(Select)
+ */
+import 'element-ui/lib/theme-chalk/index.css';
+
 import Vuex from 'vuex'
 import store from './store/store'
 
@@ -31,6 +42,10 @@ Vue.component(Loading);
 Vue.config.productionTip = false
 
 Vue.use(Vuex);
+
+// 在引入 Element 时，可以传入一个全局配置对象。
+// 该对象目前支持 size 与 zIndex 字段。size 用于改变组件的默认尺寸，zIndex 设置弹框的初始 z-index（默认值：2000）。
+Vue.use(ElementUI, { size: 'small', zIndex: 3000 });
 
 /* eslint-disable no-new */
 new Vue({

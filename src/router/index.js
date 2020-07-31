@@ -5,12 +5,19 @@ import test from '@/components/test'
 import demo4 from '@/components/demo4'
 import Loading from '@/components/loading'
 import echarts from '@/components/echarts'
+
+import elementIndex from '@/components/elementUI/index'
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
       path: '/',
+      name: 'elementIndex',
+      component: elementIndex
+    },
+    {
+      path: '/demo4',
       name: 'HelloWorld',
       component: demo4
     },
